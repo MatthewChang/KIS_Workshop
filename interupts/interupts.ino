@@ -58,8 +58,9 @@ void loop()
   //analogWrite(analogOut,map(in,0,4096,0,255));
   //analogWrite(DAC1,map(in,0,4096,0,4096));
   //dacc_write_conversion_data(DACC_INTERFACE, map(in,0,4096,0,256));
-  frequency = map(in, 0, 4096, 0, 20000);
-  frequency = constrain(frequency, 1, 20000);
+  int n_frequency = map(in, 0, 4096, 0, 20000);
+  n_frequency = constrain(n_frequency, 1, 20000);
+  frequency = frequency*0.99 + n_frequency*0.01; //frequency stabalization
   sample_period = sample_rate/frequency;
   Serial.print(sample_period);
   Serial.print(" ");
@@ -83,9 +84,13 @@ void loop()
   }
   //TC_SetRC(TC2,1,interupt_delay);
 }*/
-const float Pi = 3.14159;
+
 static inline int SinSample(int sample_number, int sample_period) {
   return waveformsTable[0][WAVEFORM_SAMPLES*sample_number/sample_period];
+}
+
+static inline int TriangleSample(int sample_number, int sample_period) {
+  return waveformsTable[1][WAVEFORM_SAMPLES*sample_number/sample_period];
 }
 
 static inline int SawSample(int sample_number, int sample_period) {
