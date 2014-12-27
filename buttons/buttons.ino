@@ -3,9 +3,7 @@
 
 CapSense sensor(5, 4);
 int test_led_pin = 13;
-void setup()
-{
-
+void setup() {
   //cs_4_2.set_CS_AutocaL_Millis(0xFFFFFFFF);     // turn off autocalibrate on channel 1 - just as an example
   Serial.begin(9600);
   analogReadResolution(12);
@@ -19,10 +17,12 @@ void setup()
 
 void loop()
 {
+  Serial.println(sensor.sampleTicks());
   if (sensor.buttonState() == 1) {
-    Serial.println("on");
+    //Serial.println("on");
     digitalWrite(test_led_pin, HIGH);
   } else {
+    //Serial.println("off");
     digitalWrite(test_led_pin, LOW);
   }
 }
