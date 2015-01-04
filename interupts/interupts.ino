@@ -30,12 +30,7 @@ double sample_position = 0;
 double sample_period = sample_rate / frequency;
 
 void setup()
-{
-  Serial.begin(9600);
-  pinMode(led_pin, OUTPUT);
-  pinMode(inputPin, INPUT);
-  pinMode(analogOut, OUTPUT);
-  pinMode(DAC1, OUTPUT);
+{  
   pmc_set_writeprotect(false);		 // disable write protection for pmc registers
   pmc_enable_periph_clk(ID_TC7);	 // enable peripheral clock TC7
 
@@ -51,6 +46,13 @@ void setup()
   /* Enable the interrupt in the nested vector interrupt controller */
   /* TC4_IRQn where 4 is the timer number * timer channels (3) + the channel number (=(1*3)+1) for timer1 channel1 */
   NVIC_EnableIRQ(TC7_IRQn);
+  
+  
+  Serial.begin(9600);
+  pinMode(led_pin, OUTPUT);
+  pinMode(inputPin, INPUT);
+  pinMode(analogOut, OUTPUT);
+  pinMode(DAC1, OUTPUT);
   analogWriteResolution(12);
   analogReadResolution(12);
   analogWrite(DAC1, 4095);
