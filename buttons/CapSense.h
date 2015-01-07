@@ -22,7 +22,7 @@ class CapSense {
     /*Constructor for sensor, 2000 is a value I found to be good
     emperically for resolution 12, 50 is a number I emperically
     found to be good with 2, 10 Mohm resistors and our*/
-    CapSense(int output_pin, int read_pin, int v_threshold = 2000, int t_threshold = 50) {
+    CapSense(int output_pin, int read_pin, int v_threshold = 2000, int t_threshold = 1000) {
       out_pin = output_pin;
       in_pin = read_pin;
       voltage_threshold = v_threshold;
@@ -54,7 +54,7 @@ class CapSense {
         delay(1);
       }
       t = 0;
-      digitalWrite(5, HIGH);
+      digitalWrite(out_pin, HIGH);
       while (analogRead(in_pin) < voltage_threshold) {
         t++;
         if (t > tick_timeout) {

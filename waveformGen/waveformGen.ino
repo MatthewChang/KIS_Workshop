@@ -7,10 +7,10 @@ void printSinValues(int num_samples) {
    
    double sample_val = 0;
    //the variable PI is already defined by the arduino base code
-   sample_val = sin(2*PI*i/num_samples);
+   /*sample_val = sin(2*PI*i/num_samples);
    sample_val += 1;
    sample_val /= 2;
-   sample_val *= 4095;
+   sample_val *= 4095;*/
    
    int outval = floor(sample_val);
    if(outval > 0xfff || outval < 0) {
@@ -32,6 +32,7 @@ void printSquareValues(int num_samples) {
      sample_val = 0xfff;
      
    int outval = floor(sample_val);
+   
    if(outval > 0xfff || outval < 0) {
      Serial.println("Invalid Sample Value");
    }
