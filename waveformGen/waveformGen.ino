@@ -2,6 +2,7 @@
 //PI = PI 3.1415926535897932384626433832795
 
 void printSinValues(int num_samples) {
+ Serial.println("\n");
  Serial.print("{");
  for(int i = 0; i < num_samples; i++) {
    
