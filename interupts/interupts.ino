@@ -60,15 +60,22 @@ void setup()
   analogWrite(DAC1, 4095);
 }
 
+//Returns the frequency mapped from a voltage range of 0-4095 onto a scale array
+double frequencyFromVoltage(int voltage, double* scale, int scale_size) {
+  if(voltage < 0 || voltage > 4095) {
+    Serial.println("Invalid input");
+    return 0;
+  }
+  int pos = map(voltage,0,4095,0,scale_size-1);
+  return scale[pos];
+}
+
 void loop()
 {
   int in = analogRead(inputPin);
   Serial.println(in);
-  int size = sizeof(DIATONIC_C)/sizeof(DIATONIC_C[0]);
-  int pos = map(in,0,4095,0,size-1);
-  pos = constrain(pos,0,size-1);
-  frequency = DIATONIC_C[pos];
-  
+  frequency = frequencyFromVoltage(in,BLUES_C,BLUES_C_SIZE);
+  Serial.println(frequency);
   sample_period = sample_rate / frequency;
 }
 
@@ -87,9 +94,6 @@ static inline int sampleWaveform(int * waveform, int waveform_samples, double po
   double frac = sample_pos - sample_floor;
   
   return (int)(waveform[sample_floor]);
-  //int value = waveformsTable[0][sample_floor];
-
-  //return value;
 }
 
 
