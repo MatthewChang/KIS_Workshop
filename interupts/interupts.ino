@@ -13,6 +13,7 @@
 
 #include "./Waveforms.h"
 #include "./Scales.h"
+#include "./Range.h"
 
 const int led_pin = 13;
 int state = false;
@@ -58,6 +59,7 @@ void setup()
   analogWriteResolution(12);
   analogReadResolution(12);
   analogWrite(DAC1, 4095);
+  rangeSetup();
 }
 
 //Returns the frequency mapped from a voltage range of 0-4095 onto a scale array
@@ -70,12 +72,26 @@ double frequencyFromVoltage(int voltage, double* scale, int scale_size) {
   return scale[pos];
 }
 
+double frequencyFromRange(double in, double low, double high, double* scale, int scale_size) {
+  in = constrain(in,low,high);
+  int pos = map(in,low,high,0,scale_size-1);
+  return scale[pos];
+}
+
 void loop()
 {
-  int in = analogRead(inputPin);
+  frequency = 440.0;
+  //Serial.println(getRange());
+  /*int in = analogRead(inputPin);
   Serial.println(in);
   frequency = frequencyFromVoltage(in,BLUES_C,BLUES_C_SIZE);
-  Serial.println(frequency);
+  Serial.println(frequency);*/
+  int in = getRange();
+  Serial.println(in);
+  //frequency = frequencyFromVoltage(in,BLUES_C,BLUES_C_SIZE);
+  frequency = frequencyFromRange(in,0,30,BLUES_C_SMALL,BLUES_C_SMALL_SIZE);
+  
+  //Serial.println(frequency);
   sample_period = sample_rate / frequency;
 }
 

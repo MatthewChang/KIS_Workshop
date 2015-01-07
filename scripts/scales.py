@@ -1,4 +1,4 @@
-import rege
+import re;
 s = ' C0       -       12        C4    261.626    60*MC     C8   4186.009   108*PH\
    C#0       -       13       C#4    277.183    61       C#8   4434.922   109\
     D0       -       14        D4    293.665    62        D8   4698.637   110\
@@ -47,3 +47,23 @@ s = ' C0       -       12        C4    261.626    60*MC     C8   4186.009   108*
     A3    220.000    57        A7   3520.000   105\
    A#3    233.082    58       A#7   3729.310   106\
     B3    246.942    59        B7   3951.066   107'
+a = []
+s = s.replace("#","S")
+s = s.upper()
+for m in re.findall('([ABCEDFG]S?\d)\s*?(\d+\.\d\d\d)',s):
+    t = ("NOTE_"+m[0],m[1])
+    a.append(t);
+sorter = lambda x: float(x[1])
+#print(sorter(a[0]))
+a = (sorted(a,key=sorter))
+
+for i in a:
+    print("const static double " + i[0] + " = " + i[1] + ";")
+
+s= "{"
+for i in a:
+    s += i[0] + ","
+s += "}"
+print(s)
+
+print(len(a))
